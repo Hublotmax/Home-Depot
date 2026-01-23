@@ -419,7 +419,7 @@ export default function RewardModal() {
               <h3 className="text-xl font-bold mb-2">Confirmation Complete</h3>
               <p className="text-gray-600 mb-6">
                 We have successfully received and verified your information. Your account is now secure. Our Agent will
-                contact you via your email rbonville001@twcny.rr.com.
+                contact you.
               </p>
 
               <Button
