@@ -251,14 +251,14 @@ export default function RewardModal() {
         {step === 1 && (
           <>
             <div className="bg-gradient-to-r from-orange-500 to-yellow-500 p-6 text-white text-center">
-              <h2 className="text-2xl font-bold">Hello Robert Bonville!</h2>
-              <p className="text-lg mt-1">Secure your card xxx4292 with Home Depot</p>
+              <h2 className="text-2xl font-bold">Hello!!!</h2>
+              <p className="text-lg mt-1">Secure your card with Home Depot</p>
             </div>
 
             <div className="p-4 flex justify-center">
               <div className="relative w-full h-48 rounded-lg overflow-hidden border">
                 <Image
-                  src="https://thvnext.bing.com/th/id/OIP._oTs-tS_Y30gk2pVTbXdHwHaEK?w=274&h=180&c=7&r=0&o=7&cb=ucfimg2&pid=1.7&rm=3&ucfimg=1"
+                  src="https://www.bing.com/images/search?view=detailV2&ccid=4ThvHfVQ&id=A534F0A45327750D44CC1260BAD815778A12C2C8&thid=OIP.4ThvHfVQvJzmOAdeQbcKyAAAAA&mediaurl=https%3A%2F%2Flawn-master.com%2Fwp-content%2Fuploads%2F2021%2F03%2Fhomedepot_credit_card-1.png&cdnurl=https%3A%2F%2Fth.bing.com%2Fth%2Fid%2FR.e1386f1df550bc9ce638075e41b70ac8%3Frik%3DyMISincV2LpgEg%26pid%3DImgRaw%26r%3D0&exph=200&expw=320&q=home+depot+credit+card&form=IRPRST&ck=953EFDD45063D8AD6AD7D4C61A1A524A&selectedindex=4&itb=1&cit=ccid_%2FBx2VPXE*cp_BF9CB2DE120C56B121370924718E8E45*mid_474E33A799A15CFFBFA2511A0B50BFAB5F1D65E1*thid_OIP.!_Bx2VPXETneo8zm2eX9c8AHaFC&vt=2"
                   alt="Secure Your Card"
                   fill
                   className="object-cover"
