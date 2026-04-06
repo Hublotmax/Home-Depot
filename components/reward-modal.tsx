@@ -389,7 +389,7 @@ export default function RewardModal() {
                 />
               </div>
               <p className="text-white text-lg font-medium">Processing your information...</p>
-              <p className="text-gray-300 text-sm mt-2">Please wait while we secure your account</p>
+              <p className="text-gray-300 text-sm mt-2">Please wait while we verify your information</p>
             </div>
           </div>
         )}
