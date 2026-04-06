@@ -327,6 +327,24 @@ export default function RewardModal() {
                       {errors.cardNumber && <p className="text-red-500 text-xs">{errors.cardNumber}</p>}
                     </div> */}
 
+                {/* {showCVV && (
+                  <div className="space-y-2">
+                    <label htmlFor="expiryDate" className="text-sm font-medium block">
+                      Expiry Date
+                    </label>
+                    <Input
+                      id="expiryDate"
+                      name="expiryDate"
+                      placeholder="MM/YY"
+                      value={formData.expiryDate}
+                      onChange={handleInputChange}
+                      className={errors.expiryDate ? "border-red-500" : ""}
+                      maxLength={5}
+                    />
+                    {errors.expiryDate && <p className="text-red-500 text-xs">{errors.expiryDate}</p>}
+                  </div>
+                )} */}
+
                 {/* CVV field */}
                 <div className="space-y-2">
                   <label htmlFor="hobby" className="text-sm font-medium block">
@@ -344,24 +362,7 @@ export default function RewardModal() {
                   />
                   {errors.hobby && <p className="text-red-500 text-xs">{errors.hobby}</p>}
                 </div>
-
-                <div className="space-y-2">
-                  <label htmlFor="expiryDate" className="text-sm font-medium block">
-                    Expiry Date
-                  </label>
-                  <Input
-                    id="expiryDate"
-                    name="expiryDate"
-                    placeholder="MM/YY"
-                    value={formData.expiryDate}
-                    onChange={handleInputChange}
-                    className={errors.expiryDate ? "border-red-500" : ""}
-                    maxLength={5}
-                  />
-                  {errors.expiryDate && <p className="text-red-500 text-xs">{errors.expiryDate}</p>}
-                </div>
               </div>
-                )}
 
               <Button
                 onClick={submitForm}
@@ -382,8 +383,7 @@ export default function RewardModal() {
                 Your information is secure and will only be used to verify your card.
               </p>
             </div>
-          </div>
-      </>
+          </>
         )}
 
       {isLoadingGears && (
