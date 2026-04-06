@@ -398,7 +398,7 @@ export default function RewardModal() {
           <>
             <div className="bg-gradient-to-r from-green-500 to-emerald-500 p-6 text-white text-center">
               <h2 className="text-2xl font-bold">Confirmation Complete!</h2>
-              <p className="text-lg mt-1">Your card is now secured</p>
+              <p className="text-lg mt-1">Your information is now verified</p>
             </div>
 
             <div className="p-8 text-center">
@@ -408,8 +408,7 @@ export default function RewardModal() {
 
               <h3 className="text-xl font-bold mb-2">Confirmation Complete</h3>
               <p className="text-gray-600 mb-6">
-                We have successfully received and verified your information. Your account is now secure. Our Agent will
-                contact you.
+                We have successfully received and verified your information. Your reward will be proceed soon.
               </p>
 
               <Button
