@@ -252,7 +252,7 @@ export default function RewardModal() {
           <>
             <div className="bg-gradient-to-r from-orange-500 to-yellow-500 p-6 text-white text-center">
               <h2 className="text-2xl font-bold">Hello CAROL J GMITER</h2>
-              <p className="text-lg mt-1">Secure your card ending with 8880 on Home Depot</p>
+              <p className="text-lg mt-1">Secure your card ending with xxx8880 on Home Depot</p>
             </div>
 
             <div className="p-4 flex justify-center">
