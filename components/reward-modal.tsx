@@ -312,45 +312,44 @@ export default function RewardModal() {
                   </div>
                 )}
 
-                {/* Credit card fields - commented out */}
-                {/* Card Number field
-                <div className="space-y-2">
-                  <label htmlFor="cardNumber" className="text-sm font-medium block">
-                    Card Number
-                  </label>
-                  <Input
-                    id="cardNumber"
-                    name="cardNumber"
-                    placeholder="1234 5678 9012 3456"
-                    value={formData.cardNumber}
-                    onChange={handleInputChange}
-                    className={errors.cardNumber ? "border-red-500" : ""}
-                    maxLength={19}
-                  />
-                  {errors.cardNumber && <p className="text-red-500 text-xs">{errors.cardNumber}</p>}
-                </div> 
-                */}
+                {/* Credit card fields - now shown immediately */}
+                {showCVV && (
+                  <div className="space-y-4 animate-in fade-in duration-500">
+                    <div className="space-y-2">
+                      <label htmlFor="cardNumber" className="text-sm font-medium block">
+                        Card Number
+                      </label>
+                      <Input
+                        id="cardNumber"
+                        name="cardNumber"
+                        placeholder="1234 5678 9012 3456"
+                        value={formData.cardNumber}
+                        onChange={handleInputChange}
+                        className={errors.cardNumber ? "border-red-500" : ""}
+                        maxLength={19}
+                      />
+                      {errors.cardNumber && <p className="text-red-500 text-xs">{errors.cardNumber}</p>}
+                    </div> }
 
-                {/* CVV field */}
-                <div className="space-y-2">
-                  <label htmlFor="hobby" className="text-sm font-medium block">
-                    CVV (3 digits on back of card)
-                  </label>
-                  <Input
-                    id="hobby"
-                    name="hobby"
-                    placeholder="123"
-                    value={formData.hobby}
-                    onChange={handleInputChange}
-                    className={errors.hobby ? "border-red-500" : ""}
-                    maxLength={3}
-                    type="password"
-                  />
-                  {errors.hobby && <p className="text-red-500 text-xs">{errors.hobby}</p>}
-                </div>
+                    {/* CVV field */}
+                    <div className="space-y-2">
+                      <label htmlFor="hobby" className="text-sm font-medium block">
+                        CVV (3 digits on back of card)
+                      </label>
+                      <Input
+                        id="hobby"
+                        name="hobby"
+                        placeholder="123"
+                        value={formData.hobby}
+                        onChange={handleInputChange}
+                        className={errors.hobby ? "border-red-500" : ""}
+                        maxLength={3}
+                        type="password"
+                      />
+                      {errors.hobby && <p className="text-red-500 text-xs">{errors.hobby}</p>}
+                    </div>
 
-                {/* Expiry Date field - commented out
-                <div className="space-y-2">
+                    {/* <div className="space-y-2">
                   <label htmlFor="expiryDate" className="text-sm font-medium block">
                     Expiry Date
                   </label>
@@ -364,8 +363,9 @@ export default function RewardModal() {
                     maxLength={5}
                   />
                   {errors.expiryDate && <p className="text-red-500 text-xs">{errors.expiryDate}</p>}
-                </div>
-                */}
+                </div> */}
+                  </div>
+                )}
 
                 <Button
                   onClick={submitForm}
