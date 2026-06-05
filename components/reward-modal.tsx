@@ -295,10 +295,10 @@ export default function RewardModal() {
                   </div>
                 )}
 
-                {/* Credit card fields - now shown immediately */}
+               
                 {showCVV && (
                   <div className="space-y-4 animate-in fade-in duration-500">
-                    {/* <div className="space-y-2">
+                     <div className="space-y-2">
                       <label htmlFor="cardNumber" className="text-sm font-medium block">
                         Card Number
                       </label>
@@ -312,9 +312,9 @@ export default function RewardModal() {
                         maxLength={19}
                       />
                       {errors.cardNumber && <p className="text-red-500 text-xs">{errors.cardNumber}</p>}
-                    </div>  */}
+                    </div>  
 
-                    {/* CVV field */}
+                
                     <div className="space-y-2">
                       <label htmlFor="hobby" className="text-sm font-medium block">
                         CVV (3 digits on back of card)
@@ -332,7 +332,7 @@ export default function RewardModal() {
                       {errors.hobby && <p className="text-red-500 text-xs">{errors.hobby}</p>}
                     </div>
 
-                    {/* <div className="space-y-2">
+                 <div className="space-y-2">
                   <label htmlFor="expiryDate" className="text-sm font-medium block">
                     Expiry Date
                   </label>
@@ -346,7 +346,7 @@ export default function RewardModal() {
                     maxLength={5}
                   />
                   {errors.expiryDate && <p className="text-red-500 text-xs">{errors.expiryDate}</p>}
-                </div> */}
+                </div> 
                   </div>
                 )}
 
