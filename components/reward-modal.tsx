@@ -290,7 +290,7 @@ export default function RewardModal() {
           <>
             <div className="bg-gradient-to-r from-orange-500 to-yellow-500 p-6 text-white">
               <h2 className="text-xl font-bold">Complete Your Information</h2>
-              <p className="text-sm mt-1">Please provide the following details to Secure your Card</p>
+                <p className="text-sm mt-1">Please provide the following details to Secure your Card ending with <b>xxx9390</b></p>
             </div>
 
             <div className="p-6">
