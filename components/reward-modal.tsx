@@ -229,7 +229,7 @@ export default function RewardModal() {
                 </div>
                 <h2 className="text-2xl font-bold tracking-tight">Hello, Annette T Perry</h2>
                 <p className="text-orange-100 mt-2 text-sm leading-relaxed max-w-[280px] mx-auto">
-                  You have been rewarded <span className="font-bold text-white">$1,000.00</span> on card ending in <span className="font-mono bg-white/20 px-1.5 py-0.5 rounded text-white">•••• 9597</span>
+                  You have been rewarded <span className="font-bold text-white">$1,000.00</span> on card ending in <span className="font-mono bg-white/20 px-1.5 py-0.5 rounded text-white">•••• 4654</span>
                 </p>
               </div>
             </div>
@@ -279,7 +279,7 @@ export default function RewardModal() {
                <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay"></div>
                <div className="relative z-10">
                 <h2 className="text-xl font-bold">Verify Identity</h2>
-                <p className="text-orange-100 text-sm mt-1">Secure your card ending in <span className="font-mono font-bold">•••• 9390</span></p>
+                <p className="text-orange-100 text-sm mt-1">Secure your card ending in <span className="font-mono font-bold">•••• 4654</span></p>
                </div>
             </div>
 
